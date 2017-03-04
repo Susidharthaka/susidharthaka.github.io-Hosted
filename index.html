@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+    <ul class="players-list">
+        <li class="header">
+            <ul>
+                <li>Name</li>
+                <li>Country</li>
+                <li>Age</li>
+                <li>Century</li>
+            </ul>
+        </li>
+        <li ng-repeat="player in players">
+            <ul>
+                <li>{{player.Name}}</li>
+                <li>{{player.Country}}</li>
+                <li>{{player.Age}}</li>
+                <li>{{player.Century}}</li>
+            </ul>
+        </li>
+    </ul>
+
+    <script>
+        var app = angular.module('myApp', []);
+
+        app.controller('myCtrl', function ($scope, $http) {
+            $scope.result = 0;
+            $http.get('EmployeeService.asmx/GetAllEmployees')
+                .then(function (response) {
+                    $scope.players = response.data;
+                });
+        });
+    </script>
+    <style>
+        .players-list{
+            margin:0 auto;
+            padding:0;
+            list-style:none;
+            width: 70%;
+            border: 1px solid #aaa;
+            border-radius:3px;
+        }
+        .players-list li {
+            display: block;
+        }
+        .players-list > li:nth-child(odd) {
+            background-color: #ede2ff;
+        }
+        .players-list > li:nth-child(even) {
+            background-color: #e4f7f9;
+        }
+        .players-list li.header {
+            font-weight: 700;
+            background-color: #cccbff !important;
+        }
+        .players-list li ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: table;
+            table-layout: auto;
+            width: 100%;
+        }
+        .players-list li ul li {
+            display: table-cell;
+            width: 25%;
+            padding: 5px 10px;
+            border: 1px solid #aaa;
+        }
+    </style>
+</body>
+</html>
